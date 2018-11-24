@@ -20,12 +20,6 @@ def dataToImage(imgData, userData):
     pa = pic.load()
     paSize = pic.size
 
-    for i in range(1):
-        for j in range(16):
-            print(pa[i,j])
-    print()
-
-
     i = 0
     j = 0
     count = 0
@@ -42,14 +36,11 @@ def dataToImage(imgData, userData):
             c2 = (c & 0b0110000) >> 4
             c3 = (c & 0b0001100) >> 2
             c4 = (c & 0b0000011)
-            print (str(c1) + " " + str(c2) + " " + str(c3) + " " + str(c4))
 
             if count == 0:
-                print("i: "+str(i)+" j: " +str(j) + " count: " + str(count))
                 pa[i,j] = ((pa[i,j][0] & 0b11111100) + c1,
                            (pa[i,j][1] & 0b11111100) + c2,
                            (pa[i,j][2] & 0b11111100) + c3)
-                print(pa[i,j])
 
                 (i, j) = incPos(i, j, paSize)
 
@@ -61,11 +52,9 @@ def dataToImage(imgData, userData):
             
 
             elif count == 1:
-                print("i: "+str(i)+" j: " +str(j) + " count: " + str(count))
                 pa[i,j] = (pa[i,j][0],
                            (pa[i,j][1] & 0b11111100) + c1,
                            (pa[i,j][2] & 0b11111100) + c2)
-                print(pa[i,j])
 
                 (i, j) = incPos(i, j, paSize)
 
@@ -76,17 +65,18 @@ def dataToImage(imgData, userData):
             
 
             else:
-                print("i: "+str(i)+" j: " +str(j) + " count: " + str(count))
                 pa[i,j] = (pa[i,j][0],
                            pa[i,j][1],
                            (pa[i,j][2] & 0b11111100) + c1)
-                print(pa[i,j])
+
                 (i, j) = incPos(i, j, paSize)
 
                 pa[i,j] = ((pa[i,j][0] & 0b11111100) + c2,
                            (pa[i,j][1] & 0b11111100) + c3,
                            (pa[i,j][2] & 0b11111100) + c4)
+
                 (i, j) = incPos(i, j, paSize)
+
                 count = 0
 
 
@@ -104,11 +94,6 @@ def imageToData(imgData):
     pa = pic.load()
     paSize = pic.size
 
-    print()
-    for i in range(1):
-        for j in range(16):
-            print(pa[i,j])
-
     userData = {}
     dataIndex = 0
     ch = 0
@@ -121,14 +106,8 @@ def imageToData(imgData):
             for k in range(3):
                 
                 ch += (pa[i,j][k] & 0b11) << ((3-(count % 4)) * 2)
-                if count < 16:
-                    print("i: "+str(i)+" j: "+str(j)+" k: "+str(k))
-                    print("bits: "+str(bin(ch)))
 
                 if count % 4 == 3:          # end of char
-                    if count < 16:
-                        print("char: "+str(chr(ch)))
-                        print()
                     if chr(ch) != '$':
                         if dollars != 0:    # not $$
                             dollars = 0
@@ -136,13 +115,15 @@ def imageToData(imgData):
                         st += str(chr(ch))
                         
                     else:
+                        dollars += 1
                         if (dollars == 2):
                             userData[usrdat[dataIndex]] = st
+                            
                             st = ""
                             if dataIndex == 3:
                                 return userData
-                        else:
-                            dollars += 1
+                            dataIndex += 1
+                            dollars = 0
                     ch = 0
                         
                 count += 1
@@ -151,5 +132,26 @@ def imageToData(imgData):
 
 
 
+
+
+
+if __name__ == "__main__":
+
+    with open("test.jpg", "rb") as f:
+        pic = dataToImage(base64.b64encode(f.read()),
+            {
+                "first_name":"Joe$$",
+                "last_name": "Baguley$$",
+                "email":"joe@outlook.com$$",
+                "dob":"04/02/1998$$"
+            })
+
+
+    pi = Image.open(io.BytesIO(base64.b64decode(pic)))
+    pa = pi.load()
+
+
+    with open("out.bmp", "rb") as f:
+        ud = imageToData(base64.b64encode(f.read()))
 
 
