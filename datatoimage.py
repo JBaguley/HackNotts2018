@@ -137,21 +137,22 @@ def imageToData(imgData):
 
 if __name__ == "__main__":
 
-    with open("test.jpg", "rb") as f:
-        pic = dataToImage(base64.b64encode(f.read()),
-            {
-                "first_name":"Joe$$",
-                "last_name": "Baguley$$",
-                "email":"joe@outlook.com$$",
-                "dob":"04/02/1998$$"
-            })
+    # with open("test.jpg", "rb") as f:
+    #     pic = dataToImage(base64.b64encode(f.read()),
+    #         {
+    #             "first_name":"Joe$$",
+    #             "last_name": "Baguley$$",
+    #             "email":"joe@outlook.com$$",
+    #             "dob":"04/02/1998$$"
+    #         })
 
 
-    pi = Image.open(io.BytesIO(base64.b64decode(pic)))
-    pa = pi.load()
+    # pi = Image.open(io.BytesIO(base64.b64decode(pic)))
+    # pa = pi.load()
 
 
-    with open("out.bmp", "rb") as f:
+    with open("download (1).jpeg", "rb") as f:
         ud = imageToData(base64.b64encode(f.read()))
+        print(ud)
 
 

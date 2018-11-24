@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <title>Pictyour - Create</title>
+</head>
+<body>
+    <div id="nav">
+        <a href="index.html"><img src="/static/LOGO.png" id="nav_logo"></a>
+        <ul>
+            <li>Create</li>
+            <li>Home</li>
+            <li>About</li>
+            <li>API</li>
+        </ul>
+        
+    </div>
+    <div id="content">
+        <div id="center-banner">
+            <h1>Here's your unique Pictyour!</h1>
+        </div>
+        <div id="center-banner" style="margin-top: 0;">
+                <img src="{{ imagedata }}" id="userImage"/>
+        </div>
+        <div id="center-banner">
+            <a onclick="download_image()" download="pictyour.jpg">Test</a>
+        </div>
+        
+    </div>
+    <script>
+        function download_image(){
+            var img = document.getElementById("userImage");
+            var url = img.src.replace(/^data:image\/\w+;base64,/, "");
+            var a = document.createElement('a');
+            a.setAttribute("href", url);
+            a.setAttribute("download", "pictyour.jpg");
+            a.click();
+        };
+    </script>
+</body>
+</html>
