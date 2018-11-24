@@ -153,25 +153,3 @@ def imageToData(imgData):
 
 
 
-
-
-
-with open("test.jpg", "rb") as f:
-    pic = dataToImage(base64.b64encode(f.read()),
-        {
-            "first_name":"Joe$$",
-            "last_name": "Baguley$$",
-            "email":"joe@outlook.com$$",
-            "dob":"04/02/1998$$"
-        })
-
-
-pi = Image.open(io.BytesIO(base64.b64decode(pic)))
-pa = pi.load()
-
-
-with open("out.bmp", "rb") as f:
-    print(imageToData(base64.b64encode(f.read())))
-
-
-print(str(bin(ord('J'))) + " " + str(bin(ord('o'))) + " " + str(bin(ord('e'))))
