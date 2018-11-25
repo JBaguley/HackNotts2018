@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, send_file
+from flask import Flask, request, jsonify, render_template, send_file, Response
 import io
 from flask_cors import CORS
 import json
@@ -16,10 +16,12 @@ def receiveData():
     return data
 
 @app.route("/api/read", methods=["POST"])
-def receiveData():
-    data = datatoimage.Image(request.json["image-data"])
-    
-    return Response(data, mimetype='application/json')
+def receiveDataRead():
+    data = datatoimage.imageToData(request.json["image-data"])
+    outstring = ""
+    for i in data:
+        outstring += data[i]+"$"
+    return outstring
 
 
 @app.route("/", methods=["GET"])
