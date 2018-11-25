@@ -28,19 +28,29 @@
         <div id="center-banner" style="margin-top: 0;">
                 <img src="{{ imagedata }}" id="userImage"/>
         </div>
-        <div id="center-banner">
+        <!-- <div id="center-banner">
             <a onclick="download_image()" download="pictyour.jpg">Test</a>
-        </div>
+        </div> -->
         
     </div>
     <script>
         function download_image(){
+            
             var img = document.getElementById("userImage");
-            var url = img.src.replace(/^data:image\/\w+;base64,/, "");
-            var a = document.createElement('a');
-            a.setAttribute("href", url);
-            a.setAttribute("download", "pictyour.jpg");
-            a.click();
+            console.log(img.src.replace(/^data:image\/jpg;base64, /, ''));
+            
+            var form = document.createElement('form');
+            form.setAttribute("action", "/image/download");
+            form.setAttribute("method", "POST");
+            var imageData  = document.createElement('input');
+            imageData.setAttribute("type", "text");
+            imageData.setAttribute("name", "image-data");
+            imageData.setAttribute("id", "image-data");
+            imageData.setAttribute("value", img.src.replace(/^data:image\/jpg;base64, /, ''));
+
+            document.body.appendChild(form);
+            form.appendChild(imageData);
+            form.submit();
         };
     </script>
 </body>

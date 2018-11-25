@@ -151,7 +151,7 @@ if __name__ == "__main__":
     # pa = pi.load()
 
 
-    with open("download (1).jpeg", "rb") as f:
+    with open("dad.jpeg", "rb") as f:
         ud = imageToData(base64.b64encode(f.read()))
         print(ud)
 
