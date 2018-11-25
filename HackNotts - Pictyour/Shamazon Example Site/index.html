@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Pictyour</title>
+</head>
+<body>
+    <div id="nav">
+        <a href="/"><img src="shamazon.jpeg" id="nav_logo"></a>
+        <ul>
+            <li>Home</li>
+            <li>About</li>
+            <li>Shop</li>
+        </ul>
+        
+    </div>
+    <div id="content">
+        <div id="center-banner">
+            <h2 id="tagline"><b>Discover hundreds of items to buy now!</b></h2>
+
+        </div>
+        <div id="center-banner", style="margin-top: 0">
+                <h2 id="tagline"><b>Register with Pictyour!</b></h2>
+    
+            </div>
+        <div id="center-banner", style="margin-top: 0">
+            <div>
+                <input type="file" id="image" id="file" onchange="load()">
+                <input type="text" id="first_name" placeholder="First Name">
+                <input type="text" id="last_name" placeholder="Last Name">
+                <input type="email" id="email" placeholder="Email">
+                <input type="date" id="dob" >
+            </div>
+        </div>
+        
+    </div>
+    <script>
+            function load(){
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if (this.responseText != "error"){
+                            data = this.responseText.split("$")
+                            document.getElementById("first_name").value = data[0]
+                            document.getElementById("last_name").value = data[1]
+                            document.getElementById("email").value = data[2]
+                            document.getElementById("dob").value = data[3]
+                        }
+                    
+                    }
+                };
+                xhttp.open("POST", "http://127.0.0.1:5000/api/read", true);
+                xhttp.setRequestHeader("Content-type", "application/json");
+                sendString = '{\n   '
+                
+                //console.log(sendString);
+                
+                var file = document.getElementById('image').files[0];
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    var b64long = reader.result;
+                    var b64 = b64long.substring(b64long.indexOf(",")+1,b64long.length);
+                    //console.log(b64);
+                    sendString += '"image-data": "';
+                    sendString += b64;
+                    sendString += '"\n}';
+                    xhttp.send(sendString);
+                };
+            }
+        </script>
+</body>
+</html>
