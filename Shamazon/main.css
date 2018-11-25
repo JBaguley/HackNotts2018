@@ -1,5 +1,6 @@
-.signinbuttons {
-    width: 200px;
-    margin:auto;
+.button {
+    margin: auto;
     display: block;
+    width: 200px;
+    cursor: pointer
 }
